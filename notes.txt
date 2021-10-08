@@ -1,0 +1,8 @@
+tic tac toe
+ * board (module)
+    
+ * player 1 (factory function)
+ * player 2 (factory function)
+ * CPU      (factory function)
+ * game     (module)
+
