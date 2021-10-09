@@ -3,22 +3,39 @@ body {
 }
 
 #board {
-    background: green;
-    height: 80vh;
-    width: 33vw;
+    height: 600px;
+    width: 600px;
     margin: 0 auto;
     display: grid;
     grid-template-rows: repeat(3, 1fr);
+    border: 10px solid blue;
 }
 
 .row {
     background: purple;
-    border: 1px solid black;
+    border-bottom: 2px solid black;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 }
 
 .col{
-    background: yellow;
-    border: 1px solid black;
+    display: flex;
+    border-right: 2px solid black;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row .col:last-child {
+    border-right: none;
+}
+
+.col:hover {
+    background: rgb(255, 8, 255);
 }
