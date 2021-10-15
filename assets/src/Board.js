@@ -38,11 +38,28 @@
     function getCol(row, col) {
         return _board[row][col];
     }
+
+    function getCols(){
+        return Array.from(document.getElementsByClassName("col"));
+    }
+
+    function getColCoords(element){
+        const coordStr = element.classList[1];
+
+        return {row: parseInt(coordStr[0]), col: parseInt(coordStr[2])};
+    }
+
+    const isFull = ()=>{
+        return !_board.flat().includes("");
+    } 
     _render();
 
     return {
         setCol,
-        getCol
+        getCol,
+        getCols, 
+        getColCoords,
+        isFull
     };
 
 })();

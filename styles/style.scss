@@ -39,3 +39,11 @@ body {
 .col:hover {
     background: rgb(255, 8, 255);
 }
+
+.inactive {
+    pointer-events: none;
+}
+
+.col:hover.inactive{
+    background: purple;
+}

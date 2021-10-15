@@ -39,4 +39,12 @@ body {
   background: #ff08ff;
 }
 
+.inactive {
+  pointer-events: none;
+}
+
+.col:hover.inactive {
+  background: purple;
+}
+
 /*# sourceMappingURL=style.css.map */
