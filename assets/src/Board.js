@@ -2,7 +2,9 @@
  export const board = (()=>{
     const _board = [["", "", ""], ["", "", ""], ["", "", ""]];
     
-
+    function hello(){
+        console.log("hi");
+    }
     function _render(){
         const board = document.createElement("div");
         board.id = "board";
@@ -52,6 +54,15 @@
     const isFull = ()=>{
         return !_board.flat().includes("");
     } 
+
+    const rowValuesMatch = (row)=>{
+        return _board[row].every((cell)=> cell === _board[row][1] && cell !== "" );
+    }
+
+    const colValuesMatch = (col)=>{
+        const column = _board.map(row => row[col]);
+        return column.every((cell)=> cell === column[0] && column[0] !== "");
+    }
     _render();
 
     return {
@@ -59,8 +70,11 @@
         getCol,
         getCols, 
         getColCoords,
-        isFull
+        isFull,
+        rowValuesMatch,
+        colValuesMatch
     };
 
 })();
+
 

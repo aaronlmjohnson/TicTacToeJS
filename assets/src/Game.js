@@ -28,13 +28,15 @@ const Game = (()=>{
             if(e.target.matches('.col')){
                 _playTurn(counter % 2 < 1 ? _player1 : _player2, coords);
                 e.target.classList.add("inactive");
-                console.log(board.isFull());
             }
+            console.log(board.colValuesMatch(0));
+        
         });
     };
 
     
     _getPlayerInfo();
+
     _play();
     
     
