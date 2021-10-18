@@ -17,27 +17,47 @@ const Game = (()=>{
         }while(playerOrCPU != "0" && playerOrCPU != "1") 
     }
 
-    const _playTurn = (player, coords)=>{ // needs work
+    const _playTurn = (player, coords)=>{ 
         board.setCol(coords.row, coords.col, player.getPiece());
         counter++;
     }
 
-    const _play = ()=> {
-        document.addEventListener('click', (e)=>{
+    const _play = (e)=> {
+       // document.addEventListener('click', (e)=>{
+            
             const  coords = board.getColCoords(e.target);
+            const  player = counter % 2 < 1 ? _player1 : _player2;
+
             if(e.target.matches('.col')){
-                _playTurn(counter % 2 < 1 ? _player1 : _player2, coords);
+                _playTurn(player, coords);
                 e.target.classList.add("inactive");
+                console.log(_isWinner(coords, player));
             }
-            console.log(board.colValuesMatch(0));
-        
-        });
+
+            if(_isWinner(coords)){
+                console.log(`${player.getPiece()} has won!`);
+                document.removeEventListener('click', _play);
+            }
+
+       // });
     };
+
+    const _isWinner = (cell)=>{
+        return board.rowValuesMatch(cell.row) ||
+        board.colValuesMatch(cell.col) ||
+        board.negDiagMatch() ||
+        board.posDiagMatch();
+    }
+
+    const _isTie = ()=>{
+
+    }
 
     
     _getPlayerInfo();
 
-    _play();
+    // _play();
+    document.addEventListener('click', _play);
     
     
     

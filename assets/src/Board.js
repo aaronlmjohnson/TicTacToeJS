@@ -46,6 +46,8 @@
     }
 
     function getColCoords(element){
+        if(element.className == "row")
+            return;
         const coordStr = element.classList[1];
 
         return {row: parseInt(coordStr[0]), col: parseInt(coordStr[2])};
@@ -63,6 +65,16 @@
         const column = _board.map(row => row[col]);
         return column.every((cell)=> cell === column[0] && column[0] !== "");
     }
+
+    const negDiagMatch = ()=>{
+        const diag = _board.map((row, i) =>{ return row[i]});
+        return diag.every(cell => cell == diag[0] && diag[0] !== "");
+    }
+
+    const posDiagMatch = ()=> {
+        const diag = _board.map((row, i) => {return row[Math.abs(-2 + i)]});
+        return diag.every(cell => cell == diag[0] && diag[0] !== "");
+    }
     _render();
 
     return {
@@ -72,7 +84,9 @@
         getColCoords,
         isFull,
         rowValuesMatch,
-        colValuesMatch
+        colValuesMatch,
+        negDiagMatch,
+        posDiagMatch
     };
 
 })();
