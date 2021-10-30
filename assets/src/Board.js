@@ -2,9 +2,6 @@
  export const board = (()=>{
     const _board = [["", "", ""], ["", "", ""], ["", "", ""]];
     
-    function hello(){
-        console.log("hi");
-    }
     function _render(){
         const board = document.createElement("div");
         board.id = "board";
@@ -30,7 +27,9 @@
             row.appendChild(col);
         }
     }
-
+    const getValues = ()=>{
+        return _board;
+    };
     function setCol(row, col, value){
         const column = document.getElementsByClassName(`${row}-${col}`)[0];
         column.innerText = value;
@@ -75,9 +74,19 @@
         const diag = _board.map((row, i) => {return row[Math.abs(-2 + i)]});
         return diag.every(cell => cell == diag[0] && diag[0] !== "");
     }
+    
+    const getCellElement = (row, col)=>{
+        return document.getElementsByClassName(`${row}-${col}`)[0];
+    };
+
+    const deactivateCell = (row, col) => {
+        getCellElement(row, col).classList.add("inactive");;
+
+    }
     _render();
 
     return {
+        getValues,
         setCol,
         getCol,
         getCols, 
@@ -86,7 +95,9 @@
         rowValuesMatch,
         colValuesMatch,
         negDiagMatch,
-        posDiagMatch
+        posDiagMatch,
+        getCellElement,
+        deactivateCell
     };
 
 })();
