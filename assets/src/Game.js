@@ -11,7 +11,7 @@ const Game = (()=>{
     const _getPlayerInfo = () => {
         let playerOrCPU = 1;
         do{
-            playerOrCPU = 1 //prompt("Player vs Player or CPU");
+            playerOrCPU = 0 //prompt("Player vs Player or CPU");
             if(playerOrCPU == "0")
                 _player2 = player("O", false);
             else if(playerOrCPU == "1")
@@ -46,6 +46,7 @@ const Game = (()=>{
     const _step = ()=> {
         if(_gameOver)
             return;
+            
         const  player = counter % 2 < 1 ? _player1 : _player2;
 
         if(player.isCPU){
@@ -55,9 +56,7 @@ const Game = (()=>{
         }
 
         setTimeout(()=>{
-            if(_gameOver)
-                document.removeEventListener('click', _play);
-            else
+            if(!_gameOver)
                 document.addEventListener('click', _play);
         });
         
@@ -78,7 +77,7 @@ const Game = (()=>{
         
         if(_isWinner(coords) || _isTie()){
             _gameOver = true;
-            
+            document.removeEventListener('click', _play);
             console.log(_isTie() ? "Tie!" : `${player.getPiece()} wins!`);
         }
 
@@ -86,8 +85,6 @@ const Game = (()=>{
 
     
     _getPlayerInfo();
-    //document.addEventListener('click', _play); //make this work for copmuter players
-    
     _step();
     
     
