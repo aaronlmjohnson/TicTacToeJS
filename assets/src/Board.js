@@ -1,6 +1,6 @@
 
  export const board = (()=>{
-    const _board = [["", "", ""], ["", "", ""], ["", "", ""]];
+    let _board = [["", "", ""], ["", "", ""], ["", "", ""]];
     
     function _render(){
         const board = document.createElement("div");
@@ -83,6 +83,10 @@
         getCellElement(row, col).classList.add("inactive");;
 
     }
+
+    const setCustomBoard = (boardArray) => {
+        _board = boardArray;
+    }
     _render();
 
     return {
@@ -97,7 +101,8 @@
         negDiagMatch,
         posDiagMatch,
         getCellElement,
-        deactivateCell
+        deactivateCell,
+        setCustomBoard,
     };
 
 })();

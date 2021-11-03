@@ -2,7 +2,7 @@ import { board } from './Board.js'
 import { player } from './Player.js'
 import { computer } from './Computer.js'
 
-const Game = (()=>{
+export const Game = (()=>{
     let _player1 = player("X", true);
     let _player2;
     let counter = 0;
@@ -11,7 +11,7 @@ const Game = (()=>{
     const _getPlayerInfo = () => {
         let playerOrCPU = 1;
         do{
-            playerOrCPU = 0 //prompt("Player vs Player or CPU");
+            playerOrCPU = 1 //prompt("Player vs Player or CPU");
             if(playerOrCPU == "0")
                 _player2 = player("O", false);
             else if(playerOrCPU == "1")
@@ -50,7 +50,9 @@ const Game = (()=>{
         const  player = counter % 2 < 1 ? _player1 : _player2;
 
         if(player.isCPU){
-            let coords = player.determineMove(board.getValues())
+            
+            let coords = player.determineMove(board.getValues());
+            console.log(player.evaluate(board, coords, player));
             _playTurn(player, coords);
             _isGameOver(coords, player); 
         }
@@ -85,7 +87,12 @@ const Game = (()=>{
 
     
     _getPlayerInfo();
-    _step();
+    board.setCustomBoard([["X", "O", "X"],
+                          ["X", "O", "O"], 
+                          ["O", "X", "O"]]);
     
+    console.log(_player2.evaluate(board, {row: 2, col: 2}, _player2));
+   // _step();
+   
     
 })();
