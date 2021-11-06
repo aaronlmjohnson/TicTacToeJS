@@ -22,11 +22,19 @@ export  const computer = (piece, isFirst)=>{
             return 0;
     };
 
+    const findBestMove = (board, cell, player)=>{
+        board.availableMoves().forEach((move)=>{
+            
+        });
+    };
+
+
     return Object.assign({}, 
         prototype,
         { determineMove,
           isCPU,
-          evaluate
+          evaluate,
+          findBestMove
         }
     );
 
@@ -40,6 +48,15 @@ export  const computer = (piece, isFirst)=>{
         *if theres no win condition return a value of +0
         
     */
+
+    /*
+        *finding best move*
+            *look at every available move
+            *loop through those moves and run minimax on each one
+            *keep track of the current and the best move
+                *if current is better than best then set best equal to current
+            *return after going through all available moves
+     */
 
     
 }

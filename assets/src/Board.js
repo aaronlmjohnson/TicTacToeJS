@@ -1,14 +1,24 @@
 
  export const board = (()=>{
-    let _board = [["", "", ""], ["", "", ""], ["", "", ""]];
+    let _board = [["X", "O", ""], ["O", "X", ""], ["", "X", "O"]];
     
     function _render(){
         const board = document.createElement("div");
         board.id = "board";
         _createRows(board);
-
+        
         document.body.appendChild(board);
     };
+
+    function update() {
+        _board.forEach((row, i) =>{
+            row.forEach((col, j) =>{
+                const column = document.getElementsByClassName(`${i}-${j}`)[0];
+                col != "" ? deactivateCell(i, j) : false;
+                column.innerText = col;
+            });
+        });
+    }
 
     function _createRows (board){
         for(let i = 0; i < _board.length; i++){
@@ -31,8 +41,6 @@
         return _board;
     };
     function setCol(row, col, value){
-        const column = document.getElementsByClassName(`${row}-${col}`)[0];
-        column.innerText = value;
         _board[row][col] = value;
     }
 
@@ -57,7 +65,8 @@
     } 
 
     const rowValuesMatch = (row)=>{
-        return _board[row].every((cell)=> cell === _board[row][1] && cell !== "" );
+        console.log(row);
+        return _board[row].every((cell)=> cell === _board[row][0] && cell !== "" );
     }
 
     const colValuesMatch = (col)=>{
@@ -82,12 +91,46 @@
     const deactivateCell = (row, col) => {
         getCellElement(row, col).classList.add("inactive");;
 
-    }
+    };
 
     const setCustomBoard = (boardArray) => {
         _board = boardArray;
-    }
+    };
+    
+    const isRowMatch = () =>{
+       for(let row = 0; row < _board.length; row++){
+           if(rowValuesMatch(row))
+            return true; 
+       }
+       return false;
+    };
+
+    const isColMatch = ()=>{
+        for(let col = 0; col < _board.length; col++){
+            if(colValuesMatch(col))
+                return true;
+        }
+        return false;
+    };
+
+    const isTerminalState = ()=>{
+        if(isRowMatch() || isColMatch() || posDiagMatch() || negDiagMatch() || isFull())
+            return true;
+        return false;
+    };
+
+    const availableMoves = () => {
+        const moves = [];
+        for(let row = 0; row < _board.length; row++){
+            for(let col = 0; col < _board[row].length; col++){
+                if(_board[row][col] === "")
+                    moves.push({row, col});
+            }
+        }
+        return moves;
+    };
     _render();
+    update();
 
     return {
         getValues,
@@ -103,6 +146,11 @@
         getCellElement,
         deactivateCell,
         setCustomBoard,
+        isRowMatch,
+        isColMatch,
+        isTerminalState,
+        availableMoves,
+        update
     };
 
 })();

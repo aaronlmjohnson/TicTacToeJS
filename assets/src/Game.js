@@ -38,12 +38,14 @@ export const Game = (()=>{
 
             if(e.target.matches('.col')){
                 _playTurn(player, coords);
+                
             }
             _isGameOver(coords, player);
             window.requestAnimationFrame(_step);
     };
 
     const _step = ()=> {
+       
         if(_gameOver)
             return;
             
@@ -52,16 +54,16 @@ export const Game = (()=>{
         if(player.isCPU){
             
             let coords = player.determineMove(board.getValues());
-            console.log(player.evaluate(board, coords, player));
             _playTurn(player, coords);
+            player.findBestMove(board, coords, player);
+            console.log("\n");
             _isGameOver(coords, player); 
         }
-
+        board.update();
         setTimeout(()=>{
             if(!_gameOver)
                 document.addEventListener('click', _play);
         });
-        
     }
 
     const _isWinner = (cell)=>{
@@ -78,21 +80,16 @@ export const Game = (()=>{
     const _isGameOver = (coords, player)=>{
         
         if(_isWinner(coords) || _isTie()){
+            board.update();
             _gameOver = true;
             document.removeEventListener('click', _play);
-            console.log(_isTie() ? "Tie!" : `${player.getPiece()} wins!`);
+            console.log(_isWinner(coords) ?  `${player.getPiece()} wins!` : "Tie!" );
         }
-
     };
 
     
     _getPlayerInfo();
-    board.setCustomBoard([["X", "O", "X"],
-                          ["X", "O", "O"], 
-                          ["O", "X", "O"]]);
-    
-    console.log(_player2.evaluate(board, {row: 2, col: 2}, _player2));
-   // _step();
+    _step();
    
     
 })();
