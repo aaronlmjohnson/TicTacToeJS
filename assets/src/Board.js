@@ -1,8 +1,8 @@
 
  export const board = (()=>{
-    let _board = [["X", "O", ""], ["O", "X", ""], ["", "X", "O"]];
+    let _board = [["", "O", ""], ["O", "X", ""], ["", "X", "O"]];
     
-    const _render = ()=>{
+    const render = ()=>{
         const board = document.createElement("div");
         board.id = "board";
         _createRows(board);
@@ -37,6 +37,9 @@
             row.appendChild(col);
         }
     };
+    const setValues = (values)=>{
+        _board = values;
+    }
     const getValues = ()=>{
         return _board;
     };
@@ -65,7 +68,6 @@
     };
 
     const rowValuesMatch = (row)=>{
-        console.log(row);
         return _board[row].every((cell)=> cell === _board[row][0] && cell !== "" );
     };
 
@@ -129,10 +131,11 @@
         }
         return moves;
     };
-    _render();
-    update();
+    
 
     return {
+        render,
+        setValues,
         getValues,
         setCol,
         getCol,
@@ -153,6 +156,6 @@
         update
     };
 
-})();
+});
 
 

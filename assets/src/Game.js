@@ -8,6 +8,8 @@ export const Game = (()=>{
     let counter = 0;
     let lastMove ={row: 0, col: 0};
     let _gameOver = false;
+    const _board = board();
+
     const _getPlayerInfo = () => {
         let playerOrCPU = 1;
         do{
@@ -22,15 +24,15 @@ export const Game = (()=>{
     const _playTurn = (player, coords)=>{ 
         if(!coords) //prevents CPU from making move when games over
             return;
-        board.setCol(coords.row, coords.col, player.getPiece());
-        board.deactivateCell(coords.row, coords.col);
+        _board.setCol(coords.row, coords.col, player.getPiece());
+        _board.deactivateCell(coords.row, coords.col);
         lastMove = coords;
         counter++;
         
     }
 
     const _play = (e)=> {
-            let coords = board.getColCoords(e.target);
+            let coords = _board.getColCoords(e.target);
             const  player = counter % 2 < 1 ? _player1 : _player2;
 
            if(player.isCPU)
@@ -52,14 +54,13 @@ export const Game = (()=>{
         const  player = counter % 2 < 1 ? _player1 : _player2;
 
         if(player.isCPU){
-            
-            let coords = player.determineMove(board.getValues());
+            let coords = player.determineMove(_board.getValues());
+            player.findBestMove(_board, coords, player);
             _playTurn(player, coords);
-            player.findBestMove(board, coords, player);
-            console.log("\n");
+            
             _isGameOver(coords, player); 
         }
-        board.update();
+        _board.update();
         setTimeout(()=>{
             if(!_gameOver)
                 document.addEventListener('click', _play);
@@ -67,27 +68,28 @@ export const Game = (()=>{
     }
 
     const _isWinner = (cell)=>{
-        return board.rowValuesMatch(cell.row) ||
-        board.colValuesMatch(cell.col) ||
-        board.negDiagMatch() ||
-        board.posDiagMatch();
+        return _board.rowValuesMatch(cell.row) ||
+        _board.colValuesMatch(cell.col) ||
+        _board.negDiagMatch() ||
+        _board.posDiagMatch();
     };
 
     const _isTie = ()=>{
-        return board.isFull();
+        return _board.isFull();
     };
     
     const _isGameOver = (coords, player)=>{
         
         if(_isWinner(coords) || _isTie()){
-            board.update();
+            _board.update();
             _gameOver = true;
             document.removeEventListener('click', _play);
             console.log(_isWinner(coords) ?  `${player.getPiece()} wins!` : "Tie!" );
         }
     };
 
-    
+    _board.render();
+    _board.update();
     _getPlayerInfo();
     _step();
    
