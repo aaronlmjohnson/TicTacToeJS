@@ -12,38 +12,59 @@ export  const computer = (piece, isFirst)=>{
         }
     }
 
-    const evaluate = (board, cell, player)=>{
-        if(board.rowValuesMatch(cell.row) || board.colValuesMatch(cell.col) ||
-           board.posDiagMatch() || board.negDiagMatch()){
-            if(player.isX())
-                return 10;
+    const evaluate = (board, isMax)=>{
+        if(board.isAnyMatch()){
+            if(isMax)
+                return 1;
             else
-                return -10;
+                return -1;
         } else 
             return 0;
     };
 
-    const findBestMove = (board, cell, player)=>{
+    const findBestMove = (board, player)=>{
+        let bestMove = null;
+        let bestVal = player.getPiece() == "X" ? -Infinity : Infinity;
+        const moveScore = [];
         board.availableMoves().forEach((move)=>{
-            const currentBoard = _cloneBoard(board.getValues());
-            currentBoard[move.row][move.col] = player.getPiece();
-            
-            _minimax(currentBoard, 0, player.getPiece() == "O" ? false : true);
+             
+             const nextBoard = _nextBoard(board, move, player.getPiece());
+             //_prettyConsBoard(nextBoard.getValues());
+            let currVal = _minimax(nextBoard, 0, player.getPiece() == "O" ? false : true);
+            if(player.getPiece() == "X"){ // maximizer
+                if(currVal > bestVal){
+                    bestVal = currVal;
+                    bestMove = move;
+                }
+            } else { // minimizer
+                if(currVal < bestVal){
+                    bestVal = currVal;
+                    bestMove = move;
+                }
+            }
         });
+        return bestMove;
     };
 
-    const _minimax = (board, depth, isMax) =>{
+    const _minimax = (board, depth, isMax) =>{ // figure out why i'm getting NaN values on return 
         //if terminal condition is met then return value
+        //_prettyConsBoard(board.getValues());
+        if(board.isTerminalState()) 
+            return evaluate(board, isMax ? true : false)
+        let bestVal =  isMax ? -Infinity : Infinity;
+        board.availableMoves().forEach((move)=>{
 
-        _availableMoves(board).forEach((move)=>{
-            _prettyConsBoard(board);
+            const nextBoard = _nextBoard(board, move, isMax ? "X" : "O");
+
             if(isMax){
-
+                let value = _minimax(nextBoard, depth + 1, false);
+                bestVal = Math.max(bestVal, value);
             } else {
-
+                let value =  _minimax(nextBoard, depth + 1, true);
+                bestVal = Math.min(bestVal, value);
             }
-            //check out moves and minimax further
         });
+        return bestVal;
     }   
 
     const _cloneBoard = (boardArr)=>{
@@ -57,15 +78,10 @@ export  const computer = (piece, isFirst)=>{
         console.log("\n");
     };
 
-    const _availableMoves = (board) =>{
-        const moves = [];
-        for(let row = 0; row < board.length; row++){
-            for(let col = 0; col < board[row].length; col++){
-                if(board[row][col] === "")
-                    moves.push({row, col});
-            }
-        }
-        return moves;
+    const _nextBoard = (currentBoard, move, piece) => {
+        const currentBoardArr = _cloneBoard(currentBoard.getValues());
+        currentBoardArr[move.row][move.col] = piece;
+        return board(currentBoardArr);
     };
 
 

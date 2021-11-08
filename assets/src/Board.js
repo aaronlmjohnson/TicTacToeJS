@@ -1,6 +1,7 @@
 
- export const board = (()=>{
-    let _board = [["", "O", ""], ["O", "X", ""], ["", "X", "O"]];
+ export const board = ((values = null)=>{
+    let _board = values || [["", "", ""], ["O", "", ""], ["", "", ""]];
+    //[["", "O", ""], ["O", "X", ""], ["", "X", "O"]]
     
     const render = ()=>{
         const board = document.createElement("div");
@@ -121,6 +122,12 @@
         return false;
     };
 
+    const isAnyMatch = () =>{
+        if(isRowMatch() || isColMatch() || posDiagMatch() || negDiagMatch())
+            return true;
+        return false;
+    };
+
     const availableMoves = () => {
         const moves = [];
         for(let row = 0; row < _board.length; row++){
@@ -151,6 +158,7 @@
         setCustomBoard,
         isRowMatch,
         isColMatch,
+        isAnyMatch,
         isTerminalState,
         availableMoves,
         update

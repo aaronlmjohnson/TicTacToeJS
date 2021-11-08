@@ -54,8 +54,8 @@ export const Game = (()=>{
         const  player = counter % 2 < 1 ? _player1 : _player2;
 
         if(player.isCPU){
-            let coords = player.determineMove(_board.getValues());
-            player.findBestMove(_board, coords, player);
+            let coords = player.findBestMove(_board, player);
+            
             _playTurn(player, coords);
             
             _isGameOver(coords, player); 
