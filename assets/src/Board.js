@@ -1,6 +1,8 @@
 
  export const board = ((values = null)=>{
-    let _board = values || [["", "", ""], ["O", "", ""], ["", "", ""]];
+    let _board = values || [["", "", ""], 
+                            ["", "", ""], 
+                            ["", "", ""]];
     //[["", "O", ""], ["O", "X", ""], ["", "X", "O"]]
     
     const render = ()=>{

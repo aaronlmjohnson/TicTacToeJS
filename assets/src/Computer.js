@@ -30,7 +30,8 @@ export  const computer = (piece, isFirst)=>{
              
              const nextBoard = _nextBoard(board, move, player.getPiece());
              //_prettyConsBoard(nextBoard.getValues());
-            let currVal = _minimax(nextBoard, 0, player.getPiece() == "O" ? false : true);
+            let currVal = _minimax(nextBoard, 1, player.getPiece() == "X" ? false : true);// X just moved above so now its O(the minimizers turn);
+            //console.log(`score:${currVal}, move: (${move.row}, ${move.col})`);
             if(player.getPiece() == "X"){ // maximizer
                 if(currVal > bestVal){
                     bestVal = currVal;
@@ -42,28 +43,48 @@ export  const computer = (piece, isFirst)=>{
                     bestMove = move;
                 }
             }
+            //console.log("\nchecking next move...\n")
         });
+        
         return bestMove;
     };
 
-    const _minimax = (board, depth, isMax) =>{ // figure out why i'm getting NaN values on return 
-        //if terminal condition is met then return value
+    const _minimax = (board, depth, isMax) =>{ 
+        //console.log(`current depth:${depth}`);
         //_prettyConsBoard(board.getValues());
-        if(board.isTerminalState()) 
-            return evaluate(board, isMax ? true : false)
+        
+        //if terminal condition is met then return value
+        if(board.isTerminalState()) {
+            //console.log(`game finished on ${isMax ? 'X' : 'O'}  with a score of ${evaluate(board, isMax ? true : false)}.`);
+            return evaluate(board, !isMax ? true : false);
+        }
+        // this is letting X move again even though the initial move is X(the cpu) need to make it so O is read first *********
         let bestVal =  isMax ? -Infinity : Infinity;
-        board.availableMoves().forEach((move)=>{
+        board.availableMoves().forEach((move)=>{ // this might be the issue probably shouldn't loop again after checking move
 
             const nextBoard = _nextBoard(board, move, isMax ? "X" : "O");
-
+            
+            //console.log(`${isMax ? "X" : "O"} move: (${move.row}, ${move.col})`);
+            //console.log("_______________\n");
+            //_prettyConsBoard(nextBoard.getValues());
             if(isMax){
                 let value = _minimax(nextBoard, depth + 1, false);
+                //console.log(`Max of: ${value} and ${bestVal}`);
                 bestVal = Math.max(bestVal, value);
+                //console.log(`current bestVal: ${bestVal}\n`);
             } else {
-                let value =  _minimax(nextBoard, depth + 1, true);
+                let value =  _minimax(nextBoard, depth + 1, true); 
+                //console.log(`Min of: ${value} and ${bestVal}`);              
                 bestVal = Math.min(bestVal, value);
+                //console.log(`current bestVal: ${bestVal}\n`);
+
             }
         });
+        // allScores.forEach(data => {
+        //     console.log(data.score);
+        //     _prettyConsBoard(data.board);
+        // });
+
         return bestVal;
     }   
 

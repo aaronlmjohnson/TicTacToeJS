@@ -3,7 +3,7 @@ import { player } from './Player.js'
 import { computer } from './Computer.js'
 
 export const Game = (()=>{
-    let _player1 = player("X", true);
+    let _player1 = player("O", true);
     let _player2;
     let counter = 0;
     let lastMove ={row: 0, col: 0};
@@ -15,9 +15,9 @@ export const Game = (()=>{
         do{
             playerOrCPU = 1 //prompt("Player vs Player or CPU");
             if(playerOrCPU == "0")
-                _player2 = player("O", false);
+                _player2 = player("X", false);
             else if(playerOrCPU == "1")
-                _player2 = computer("O", false);
+                _player2 = computer("X", false);
         }while(playerOrCPU != "0" && playerOrCPU != "1") 
     }
 
