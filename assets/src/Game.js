@@ -8,6 +8,7 @@ export const Game = (()=>{
     let counter = 0;
     let lastMove ={row: 0, col: 0};
     let _gameOver = false;
+    let isCpuFair = true;
     const _board = board();
 
     const _getPlayerInfo = () => {
@@ -54,10 +55,13 @@ export const Game = (()=>{
         const  player = counter % 2 < 1 ? _player1 : _player2;
 
         if(player.isCPU){
-            let coords = player.findBestMove(_board, player);
-            
+            let coords = null;
+            if(isCpuFair)
+                coords = player.fairCpuMove(_board, player);
+            else
+                coords = iplayer.findBestMove(_board, player);
+
             _playTurn(player, coords);
-            
             _isGameOver(coords, player); 
         }
         _board.update();

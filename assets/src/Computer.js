@@ -48,7 +48,6 @@ export  const computer = (piece, isFirst)=>{
     };
 
     const _minimax = (board, depth, isMax) =>{ //X is the max O is the min, isMax within method is a bit confusing to read might change
-
         if(board.isTerminalState()) 
             return evaluate(board, !isMax ? true : false);
 
@@ -86,13 +85,20 @@ export  const computer = (piece, isFirst)=>{
         return board(currentBoardArr);
     };
 
+    const fairCpuMove = (board, player)=>{
+        const allMoves = board.availableMoves();
+        const move =  allMoves[Math.floor(Math.random() * allMoves.length)];
+
+        return move;
+    }
 
     return Object.assign({}, 
         prototype,
         { determineMove,
           isCPU,
           evaluate,
-          findBestMove
+          findBestMove,
+          fairCpuMove
         }
     );
 }
