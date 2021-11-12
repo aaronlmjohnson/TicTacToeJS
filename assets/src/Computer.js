@@ -29,7 +29,7 @@ export  const computer = (piece, isFirst)=>{
         board.availableMoves().forEach((move)=>{
              
              const nextBoard = _nextBoard(board, move, player.getPiece());
-            let currVal = _minimax(nextBoard, 1, player.getPiece() == "X" ? false : true);
+            let currVal = _minimax(nextBoard, 1, player.getPiece() == "X" ? false : true); 
 
             if(player.getPiece() == "X"){ // maximizer
                 if(currVal > bestVal){
@@ -47,7 +47,7 @@ export  const computer = (piece, isFirst)=>{
         return bestMove;
     };
 
-    const _minimax = (board, depth, isMax) =>{ //X is the max O is the min, isMax within method is a bit confusing to read might change
+    const _minimax = (board, depth, isMax) =>{
         if(board.isTerminalState()) 
             return evaluate(board, !isMax ? true : false);
 

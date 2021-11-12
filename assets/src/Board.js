@@ -1,9 +1,6 @@
 
  export const board = ((values = null)=>{
-    let _board = values || [["", "", ""], 
-                            ["", "", ""], 
-                            ["", "", ""]];
-    //[["", "O", ""], ["O", "X", ""], ["", "X", "O"]]
+    let _board = values || [["", "", ""], ["", "", ""], ["", "", ""]];
     
     const render = ()=>{
         const board = document.createElement("div");
@@ -98,6 +95,12 @@
 
     };
 
+    const _activateCells = () => {
+        [...document.getElementsByClassName('inactive')].forEach((cell)=>{
+            cell.classList.remove('inactive');
+        }); 
+    }
+
     const setCustomBoard = (boardArray) => {
         _board = boardArray;
     };
@@ -141,8 +144,11 @@
         return moves;
     };
 
-    const 
-    
+    const reset = () =>{
+        _board = [["", "", ""], ["", "", ""], ["", "", ""]];
+        _activateCells();
+        update();
+    }
 
     return {
         render,
@@ -165,7 +171,8 @@
         isAnyMatch,
         isTerminalState,
         availableMoves,
-        update
+        update,
+        reset,
     };
 
 });

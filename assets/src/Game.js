@@ -8,18 +8,19 @@ export const Game = (()=>{
     let counter = 0;
     let lastMove ={row: 0, col: 0};
     let _gameOver = false;
-    let isCpuFair = true;
+    let isCpuFair = false;
+    let isActive = false;
     const _board = board();
 
     const _getPlayerInfo = () => {
-        let playerOrCPU = 1;
-        do{
-            playerOrCPU = 1 //prompt("Player vs Player or CPU");
-            if(playerOrCPU == "0")
-                _player2 = player("X", false);
-            else if(playerOrCPU == "1")
-                _player2 = computer("X", false);
-        }while(playerOrCPU != "0" && playerOrCPU != "1") 
+        //let playerOrCPU = 1;
+        // do{
+        //     playerOrCPU = 1 //prompt("Player vs Player or CPU");
+        //     if(playerOrCPU == "0")
+        //         _player2 = player("X", false);
+        //     else if(playerOrCPU == "1")
+        //         _player2 = computer("X", false);
+        // }while(playerOrCPU != "0" && playerOrCPU != "1") 
     }
 
     const _playTurn = (player, coords)=>{ 
@@ -33,6 +34,8 @@ export const Game = (()=>{
     }
 
     const _play = (e)=> {
+            if(!_board.getColCoords(e.target))
+                return;
             let coords = _board.getColCoords(e.target);
             const  player = counter % 2 < 1 ? _player1 : _player2;
 
@@ -59,7 +62,7 @@ export const Game = (()=>{
             if(isCpuFair)
                 coords = player.fairCpuMove(_board, player);
             else
-                coords = iplayer.findBestMove(_board, player);
+                coords = player.findBestMove(_board, player);
 
             _playTurn(player, coords);
             _isGameOver(coords, player); 
@@ -92,10 +95,34 @@ export const Game = (()=>{
         }
     };
 
+    const handleModes = (e)=> {
+        e.preventDefault(); 
+        
+        _chooseMode(_selectCheckedMode().value);
+    };
+
+    const _selectCheckedMode = ()=>{
+        return [...document.getElementsByName("mode")].filter((radio)=>{
+            return radio.checked;
+        })[0];
+    };
+
+    const _chooseMode = (selectedMode)=>{
+        _board.reset();
+        _gameOver = false;
+        if(selectedMode == 0)
+            _player2 = player("X", false);
+        else{
+            _player2 = computer("X", false);
+            isCpuFair = selectedMode == 1 ? true : false;
+        }
+        _step();
+    };
+    let modes = document.getElementById("mode-form"); // radio buttons not selecting between modes
+    modes.addEventListener('submit', handleModes);
     _board.render();
     _board.update();
-    _getPlayerInfo();
-    _step();
+    //_getPlayerInfo();
    
     
 })();

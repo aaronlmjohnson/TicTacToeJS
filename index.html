@@ -7,12 +7,28 @@
     <link rel="stylesheet" href="/styles/style.css">
     <title>Tic-Tac-Toe</title>
 </head>
-<body>
-     <script type= "module" src="/assets/src/main.js"></script>
-    <script type="module" src="/assets/src/Game.js"></script>
-    <script type="module" src="/assets/src/Board.js"></script>
-    <script type="module" src="/assets/src/Player.js"></script>
-    <script type="module" src="/assets/src/Computer.js"></script>  
-    
-</body>
+    <body>
+        <script type= "module" src="/assets/src/main.js"></script>
+        <script type="module" src="/assets/src/Game.js"></script>
+        <script type="module" src="/assets/src/Board.js"></script>
+        <script type="module" src="/assets/src/Player.js"></script>
+        <script type="module" src="/assets/src/Computer.js"></script>  
+        
+        <div class="side-menu">
+            <form action="" id="mode-form">
+                <ul>
+                    <li>
+                        <p>Select a game mode:</p>
+                        <label>
+                            <input type="radio" name="mode" value="0" checked>Two Player
+                        </label>
+                        
+                        <label for="mode"><input type="radio" name="mode" value="1" > Random CPU</label>
+                        <label for="mode"><input type="radio" name="mode" value="2" > Unbeatable CPU</label>
+                        <input type="submit" name="submit" value="Play">
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </body>
 </html>

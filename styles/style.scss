@@ -1,9 +1,9 @@
 body {
-    background: black;
+    background: green;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
 }
-code {
-    color: green;
-}
+
 #board {
     height: 600px;
     width: 600px;
@@ -48,4 +48,11 @@ code {
 
 .col:hover.inactive{
     background: purple;
+}
+
+.side-menu {
+    background: orange;
+    border: 10px solid black;
+    width: 100%;
+    
 }
