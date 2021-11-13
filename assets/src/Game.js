@@ -9,19 +9,7 @@ export const Game = (()=>{
     let lastMove ={row: 0, col: 0};
     let _gameOver = false;
     let isCpuFair = false;
-    let isActive = false;
     const _board = board();
-
-    const _getPlayerInfo = () => {
-        //let playerOrCPU = 1;
-        // do{
-        //     playerOrCPU = 1 //prompt("Player vs Player or CPU");
-        //     if(playerOrCPU == "0")
-        //         _player2 = player("X", false);
-        //     else if(playerOrCPU == "1")
-        //         _player2 = computer("X", false);
-        // }while(playerOrCPU != "0" && playerOrCPU != "1") 
-    }
 
     const _playTurn = (player, coords)=>{ 
         if(!coords) //prevents CPU from making move when games over
@@ -118,11 +106,12 @@ export const Game = (()=>{
         }
         _step();
     };
-    let modes = document.getElementById("mode-form"); // radio buttons not selecting between modes
+
+    let modes = document.getElementById("mode-form");
     modes.addEventListener('submit', handleModes);
     _board.render();
     _board.update();
-    //_getPlayerInfo();
+
    
     
 })();
