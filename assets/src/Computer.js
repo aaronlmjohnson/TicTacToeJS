@@ -72,13 +72,6 @@ export  const computer = (piece, isFirst)=>{
         return boardArr.map(row => [...row]);
     }
 
-    const _prettyConsBoard = (board) => {
-        board.forEach((row)=>{
-            console.log(`[${row[0] || " "}][${row[1] || " "}][${row[2] || " "}]\n`);
-        });
-        console.log("\n");
-    };
-
     const _nextBoard = (currentBoard, move, piece) => {
         const currentBoardArr = _cloneBoard(currentBoard.getValues());
         currentBoardArr[move.row][move.col] = piece;

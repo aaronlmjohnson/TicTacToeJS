@@ -6,8 +6,8 @@
         const board = document.createElement("div");
         board.id = "board";
         _createRows(board);
-        
-        document.body.appendChild(board);
+        const main = [...document.getElementsByClassName("main")][0];
+        main.appendChild(board);
     };
 
     const update = () =>{
@@ -56,6 +56,10 @@
     };
 
     const getColCoords = (element)=>{
+
+        if(![...element.classList].includes("col"))//prevents method from running if a cell isn't clicked on
+            return;
+
         if(element.className == "row")
             return;
         const coordStr = element.classList[1];

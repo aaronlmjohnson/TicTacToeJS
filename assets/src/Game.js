@@ -5,6 +5,7 @@ import { computer } from './Computer.js'
 export const Game = (()=>{
     let _player1 = player("O", true);
     let _player2;
+    let p2Name = "";
     let counter = 0;
     let lastMove ={row: 0, col: 0};
     let _gameOver = false;
@@ -17,8 +18,7 @@ export const Game = (()=>{
         _board.setCol(coords.row, coords.col, player.getPiece());
         _board.deactivateCell(coords.row, coords.col);
         lastMove = coords;
-        counter++;
-        
+        counter++; 
     }
 
     const _play = (e)=> {
@@ -30,10 +30,9 @@ export const Game = (()=>{
            if(player.isCPU)
             return;
 
-            if(e.target.matches('.col')){
-                _playTurn(player, coords);
-                
-            }
+            if(e.target.matches('.col'))
+                _playTurn(player, coords);   
+
             _isGameOver(coords, player);
             window.requestAnimationFrame(_step);
     };
@@ -79,13 +78,12 @@ export const Game = (()=>{
             _board.update();
             _gameOver = true;
             document.removeEventListener('click', _play);
-            console.log(_isWinner(coords) ?  `${player.getPiece()} wins!` : "Tie!" );
+            displayWinner(coords, player);
         }
     };
 
     const handleModes = (e)=> {
         e.preventDefault(); 
-        
         _chooseMode(_selectCheckedMode().value);
     };
 
@@ -96,14 +94,18 @@ export const Game = (()=>{
     };
 
     const _chooseMode = (selectedMode)=>{
+        
         _board.reset();
         _gameOver = false;
-        if(selectedMode == 0)
+        if(selectedMode == 0){
             _player2 = player("X", false);
-        else{
+            p2Name = "Player 2";
+        }else{
             _player2 = computer("X", false);
             isCpuFair = selectedMode == 1 ? true : false;
+            p2Name = isCpuFair ? "Random CPU" : "Unbeatable CPU";
         }
+        displayPlayers(p2Name);
         _step();
     };
 
@@ -112,6 +114,17 @@ export const Game = (()=>{
     _board.render();
     _board.update();
 
-   
+    const displayPlayers = (p2Name)=>{
+        const opponents = document.getElementById("opponents");
+        opponents.innerText = `Player 1 (${_player1.getPiece()}) VS ${p2Name} (${_player2.getPiece()})`;
+    }
+
+    const displayWinner = (coords, player)=>{
+        const winnerHud = document.getElementById("opponents");
+        if(_isWinner(coords))
+            winnerHud.innerText = `${player.getPiece() == "O" ? "Player 1" : p2Name} wins!`;
+        else 
+            winnerHud.innerText = "Tie!";
+    }
     
 })();

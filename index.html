@@ -8,27 +8,34 @@
     <title>Tic-Tac-Toe</title>
 </head>
     <body>
-        <script type= "module" src="/assets/src/main.js"></script>
+         
+        <div class="container">
+            <div class="title"><h1>Tic-Tac-Toe</h1></div>
+            <div class="main">
+                <div class="side-menu">
+                    <form action="" id="mode-form">
+                        <ul>
+                            <li>
+                                <p>Select a game mode:</p>
+                                <label>
+                                    <input type="radio" name="mode" value="0" checked>Two Player
+                                </label>
+                                
+                                <label for="mode"><input type="radio" name="mode" value="1" > Random CPU</label>
+                                <label for="mode"><input type="radio" name="mode" value="2" > Unbeatable CPU</label>
+                                <input id="play" type="submit" name="submit" value="Play">
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div id="hud">
+                    <div ><p id="opponents"></p></div>
+                </div>
+            </div>
+        </div> 
         <script type="module" src="/assets/src/Game.js"></script>
         <script type="module" src="/assets/src/Board.js"></script>
         <script type="module" src="/assets/src/Player.js"></script>
-        <script type="module" src="/assets/src/Computer.js"></script>  
-        
-        <div class="side-menu">
-            <form action="" id="mode-form">
-                <ul>
-                    <li>
-                        <p>Select a game mode:</p>
-                        <label>
-                            <input type="radio" name="mode" value="0" checked>Two Player
-                        </label>
-                        
-                        <label for="mode"><input type="radio" name="mode" value="1" > Random CPU</label>
-                        <label for="mode"><input type="radio" name="mode" value="2" > Unbeatable CPU</label>
-                        <input type="submit" name="submit" value="Play">
-                    </li>
-                </ul>
-            </form>
-        </div>
+        <script type="module" src="/assets/src/Computer.js"></script> 
     </body>
 </html>
